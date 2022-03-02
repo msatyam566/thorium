@@ -11,7 +11,7 @@ router.get("/test-me", function (req, res) {
 router.post('/createNewAuthor', allController.createNewAuthor)
 router.post('/createNewBook', allController.createNewBook)
 router.get('/allBooks', allController.allBooks)
-router.get('/updatedBookPrice', allController.upadatedBookPrice)
+router.get('/updatedBookPrice', allController.updatedBookPrice)
 router.get('/authorName', allController.authorName)
 
 module.exports = router;

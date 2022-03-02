@@ -37,11 +37,6 @@ const updatedBookPrice = async function (req, res) {
 const authorName = async function (req,res) {
     const booksId= await bookModel.find({price: {$gte:50, $lte:100}}).select({author_id:1, _id:0})
     const id = booksId.map(inp => inp.author_id)
-    // const allAuthorNames= id.map(x => {
-    //     return authorModel.find({author_id:x}).select({author_name:1, _id:0})
-    // })
-
-    // res.send({msg:allAuthorNames})
     let temp =[]
     for(let i=0; i<id.length; i++) {
         let x = id[i]
@@ -57,5 +52,5 @@ const authorName = async function (req,res) {
 module.exports.createNewAuthor = createNewAuthor
 module.exports.createNewBook = createNewBook
 module.exports.allBooks = allBooks
-module.exports.upadatedBookPrice = upadatedBookPrice
-module.exports.authorsName = authorsName
+module.exports.updatedBookPrice = updatedBookPrice
+module.exports.authorName = authorName

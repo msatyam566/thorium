@@ -11,7 +11,7 @@ const loginMid = async function (req, res, next) {
     if (!user)
       return res.send({
         status: false,
-        msg: "username or the password is not corerct",
+        msg: "username or the password is not correct",
       });
 
     let token = jwt.sign(
@@ -27,7 +27,7 @@ const loginMid = async function (req, res, next) {
 
     next()
   };
-  //get user validation
+  //get user 
 
   const getUserMid = async function (req, res, next) {
     let token = req.headers["x-auth-token"];
@@ -48,7 +48,7 @@ const loginMid = async function (req, res, next) {
     }
     next()
   };
-  //update user validation
+  //update user
 
   const updateUserMid = async function (req, res, next) {
     let token = req.headers["x-auth-token"];
@@ -66,7 +66,7 @@ const loginMid = async function (req, res, next) {
     next()
   };
 
-  //Delete user validation
+  //Delete user
   const DeleteUserMid = async function (req, res, next) {
     let token = req.headers["x-auth-token"];
   if (!token) return res.send({ status: false, msg: "token must be present" });
@@ -82,8 +82,43 @@ const loginMid = async function (req, res, next) {
     res.send({ status: updatedUser, data: updatedUser });
     next()
   };
+
+  // Day 2 //
+
+  const postMessage = async function (req, res) {
+    let message = req.body.message
+    // Check if the token is present
+    // Check if the token present is a valid token
+    // Return a different error message in both these cases
+    let token = req.headers["x-auth-token"]
+    if(!token) return res.send({status: false, msg: "token must be present in the request header"})
+    let decodedToken = jwt.verify(token, 'Dav-bsc')
+
+    if(!decodedToken) return res.send({status: false, msg:"token is not valid"})
+    
+    //userId for which the request is made. In this case message to be posted.
+    let userToBeModified = req.params.userId
+    //userId for the logged-in user
+    let userLoggedIn = decodedToken.userId
+
+    //userId comparision to check if the logged-in user is requesting for their own data
+    if(userToBeModified != userLoggedIn) return res.send({status: false, msg: 'User logged is not allowed to modify the requested users data'})
+
+    let user = await userModel.findById(req.params.userId)
+    if(!user) return res.send({status: false, msg: 'No such user exists'})
+    
+    let updatedPosts = user.posts
+    //add the message to user's posts
+    updatedPosts.push(message)
+    let updatedUser = await userModel.findOneAndUpdate({_id: user._id},{posts: updatedPosts}, {new: true})
+
+    //return the updated user document
+    return res.send({status: true, data: updatedUser})
+}
+
  
 module.exports.getUserMid = getUserMid  
 module.exports.DeleteUserMid = DeleteUserMid  
 module.exports.updateUserMid = updateUserMid
 module.exports.loginMid = loginMid
+module.exports.postMessageMid = postMessage

@@ -15,6 +15,7 @@ router.post("/login", middleware.loginMid, userController.loginUser)
 router.get("/users/:userId", middleware.getUserMid, userController.getUserData)
 router.put("/users/:userId", middleware.updateUserMid, userController.updateUser)
 router.put("/users/:userId", middleware.DeleteUserMid, userController.DeleteUser)
+router.post("/users/:userId/posts", userController.postMessage)
 
 
 

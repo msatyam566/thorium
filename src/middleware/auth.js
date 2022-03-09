@@ -85,7 +85,7 @@ const loginMid = async function (req, res, next) {
 
   // Day 2 //
 
-  const postMessage = async function (req, res) {
+  const postMessageMid = async function (req, res) {
     let message = req.body.message
     // Check if the token is present
     // Check if the token present is a valid token
@@ -121,4 +121,4 @@ module.exports.getUserMid = getUserMid
 module.exports.DeleteUserMid = DeleteUserMid  
 module.exports.updateUserMid = updateUserMid
 module.exports.loginMid = loginMid
-module.exports.postMessageMid = postMessage
+module.exports.postMessageMid = postMessageMid

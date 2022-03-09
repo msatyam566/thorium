@@ -23,6 +23,9 @@ const updateUser = async function (res) {
 const DeleteUser = async function (res) {
   console.log("all validation of Deleteuser are added to middleware")
 };
+const postMessage = async function (res){
+  console.log("all validation of postMessage are added to middleware")
+}
 
 
 module.exports.createUser = createUser;
@@ -30,4 +33,5 @@ module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
 module.exports.DeleteUser = DeleteUser;
+module.exports.postMessage = postMessage
 

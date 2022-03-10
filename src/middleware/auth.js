@@ -4,15 +4,22 @@ const userModel = require("../models/userModel");
 
 //login validation
 const loginMid = async function (req, res, next) {
-    let userName = req.body.emailId;
+  try{
+    let data = req.body
+    console.log(data)
+    if (Object.keys(data).length!=0){
+      let userName = req.body.emailId;
     let password = req.body.password;
-  
-    let user = await userModel.findOne({ emailId: userName, password: password });
-    if (!user)
-      return res.send({
-        status: false,
-        msg: "username or the password is not correct",
-      });
+     let user = await userModel.findOne({emailId:userName, password: password});
+     if (!user) return res.status(400).send({msg:"Email id and password not matched"})
+    }
+  }
+     catch (err) {
+      console.log("This is the error :", err.message)
+      res.status(500).send({ msg: "Error", error:err.message})
+    }
+ 
+};
 
     let token = jwt.sign(
       {
@@ -26,7 +33,7 @@ const loginMid = async function (req, res, next) {
     res.send({ status: true, data: token });
 
     next()
-  };
+  
   //get user 
 
   const getUserMid = async function (req, res, next) {
